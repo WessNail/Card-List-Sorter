@@ -1,0 +1,347 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px auto;
+    max-width: 1200px;
+    height: 100vh;
+}
+
+.left-side, .right-side {
+    width: 45%;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.left-side {
+    flex: 1;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.left-side label {
+    margin-bottom: 10px;
+}
+
+.left-side input, .left-side textarea {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.left-side textarea {
+    flex: 1;
+    min-height: 0;
+    resize: none;
+}
+
+.note {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 10px;
+}
+
+.right-side {
+    flex: 1;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+	align-items: flex-start; 
+}
+
+.sorting-criteria {
+    display: flex;
+	flex-direction: column;
+    align-items: flex-start;
+	width: 97%;
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.categories {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    overflow-x: auto;
+    white-space: nowrap;  /* Prevent wrapping of .criteria-item elements */
+}
+
+
+.main-criteria-placeholder {
+    visibility: visible !important;
+    border: 2px dashed #999;
+    background-color: #f0f0f0;
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+    width: 150px; /*Adjust as needed*/
+}
+
+.criteria-item[data-criteria="rarity"],
+.criteria-item[data-criteria="alphabetical"] {
+    min-width: 150px; /* Adjust this value as needed */
+    flex-shrink: 0; /* Prevents the item from shrinking */
+}
+
+.criteria-item[data-criteria="Type/Color"] {
+    flex-grow: 1; /* Allows this item to take up remaining space */
+    min-width: 150px; /* Ensures a minimum width */
+}
+
+.criteria-item {
+    cursor: pointer !important;
+    padding: 0px 10px;
+    margin: 4px;
+    background-color: #7a8585;
+    border: 1px solid #707070;
+    border-radius: 4px;
+	text-align: center;
+	user-select: none; /* Prevent text selection during dragging */
+}
+
+.criteria-item-placeholder {
+    visibility: visible !important;
+    border: 1px dashed #999;
+    background-color: #5b5353;
+    height: 30px; /* Adjust this to match your criteria-item height */
+}
+
+.criteria-item span {
+    cursor: pointer !important;
+    color: rgb(0, 0, 0);  
+    font-size: large;
+    font-weight: bold;
+}
+
+.criteria-item, .criteria-item * {
+    cursor: pointer;
+}
+
+.criteria-item .subcriteria {
+    margin-top: 10px;
+}
+
+.criteria-item .subcriteria span{
+    color: rgb(252, 253, 253);
+    font-size: medium;
+    font-weight: normal;
+}
+
+.criteria-item .subcriteria .criteria-item {
+    display: block;
+    margin: 4px 0;
+    cursor: pointer;
+    background-color: rgb(1, 107, 194);
+}
+
+
+.criteria-item.toggle-order {
+    display: block;
+    cursor: pointer;
+    text-align: center;
+    padding: 8px;
+    margin: 4px 0;
+    position: static;
+    bottom: 0;
+    background-color: #f0f0f0;
+    z-index: 10;
+}
+
+/* SLIDING PANEL FOR ADD NEW TYPE/COLOR */
+
+.criteria-item#addTypeColorButton {
+    cursor: pointer;
+}
+
+.subcriteria {
+    display: flex;
+    flex-direction: column;
+}
+
+.sortable-container {
+    flex-grow: 1;
+    min-height: 100px; /* Adjust as needed */
+}
+
+#addTypeColorButton {
+    align-self: flex-start;
+    width: 100%;
+    box-sizing: border-box;
+    
+}
+
+.slider-panel {
+    position: absolute;
+    background-color: #707070;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    display: none;
+    z-index: 1000;
+    font-weight: bold;
+}
+
+.slider-panel p {
+    margin-bottom: 10px;
+}
+
+.slider-panel select {
+    width: 100%;
+    margin-bottom: 10px;
+    height: 30px;
+    background-color: #ddd;
+    font-size: large;
+}
+
+
+
+#newTypeDropdown {
+    width: 100%;
+    margin-bottom: 10px;
+    font-family: monospace; /* This helps maintain the indentation */
+    max-height: 300px; /* Adjust this value as needed */
+}
+
+#newTypeDropdown option[disabled] {
+    font-weight: bold;
+    color: #888;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.button-container button {
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: rgb(1, 107, 194);
+    font-weight: bold;
+}
+
+/* SORTED LIST */
+
+#loadingIndicator {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    color: #333;
+}
+
+#sortedList {
+    margin-top: 20px;
+}
+
+.card {
+    padding: 2px;
+    margin-bottom: 5px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-left: 20px;
+    position: relative;
+    user-select: none;
+}
+
+.card .price {
+    float: right;
+    color: #888;
+    display: none;
+}
+
+button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.section-label {
+    font-weight: bold;
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+@media print {
+    .section-label {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+}
+
+@keyframes deleteAnimation {
+    0% { background-color: transparent; }
+    100% { background-color: rgba(255, 0, 0, 0.3); }
+  }
+  
+  .criteria-item.deleting {
+    animation: deleteAnimation 1s linear forwards;
+  }
+
+  /*CARDINFO POPUP*/
+.card-popup {
+    display: flex;
+    position: absolute;
+    z-index: 1000;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    padding: 5px;
+}
+
+.card-popup img {
+    max-width: 250px;
+    height: auto;
+    display: block;
+}
+
+.debug-info {
+    margin-left: 10px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-left: 1px solid #ccc;
+    max-width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.debug-info h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.debug-info p {
+    margin: 5px 0;
+}
+
+.debug-info ul {
+    margin: 5px 0;
+    padding-left: 20px;
+}
