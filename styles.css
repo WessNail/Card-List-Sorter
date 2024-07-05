@@ -73,8 +73,9 @@ body {
     align-items: flex-start;
     background-color: #fff;
     min-height: 100vh; /* Ensures the div extends to at least the full viewport height */
-    padding-bottom: 70px; /* Adjust this value to account for the button container height */
+    padding-bottom: 50px; /* Adjust this value to account for the button container height */
     position: relative; /* Needed for absolute positioning of children if required */
+    overflow-y: auto;
 }
 
 .sorting-criteria {
@@ -260,10 +261,6 @@ body {
 }
 
 #sortedList {
-    flex-grow: 1;
-    width: 100%;
-    overflow-y: auto;
-    padding-bottom: 80px; /* Ensures content isn't hidden behind buttons */
     margin-bottom: 80px;
 }
 
