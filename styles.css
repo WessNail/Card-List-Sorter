@@ -391,6 +391,9 @@ button {
     background-color: #5b5353;
 }
 
-.highlighted {
+#priceButton.highlighted {
     background-color: rgb(1, 107, 194);
 }
+
+
+
