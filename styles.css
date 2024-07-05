@@ -374,11 +374,6 @@ button {
     z-index: 1000;
 }
 
-/* Adjust the right-side padding to account for the fixed buttons */
-.right-side {
-    padding-bottom: 70px; /* Increase this value if needed */
-}
-
 .button-container button {
     flex: 1;
     margin: 0 5px;
