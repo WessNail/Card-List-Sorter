@@ -164,7 +164,8 @@ $(document).ready(function() {
         }
         
         const showPrices = $('#priceButton').hasClass('highlighted');
-    
+        console.log("Sorting with showPrices:", showPrices);
+
         // Show loading indicator
         $('#loadingIndicator').show();
         $('#sortedList').empty();
@@ -192,13 +193,18 @@ $(document).ready(function() {
     });
 
     $('#priceButton').on('click', function() {
+        console.log("USD button clicked");
+        console.log("Before toggle:", $(this).hasClass('highlighted'));
         $(this).toggleClass('highlighted');
-
-        if ($(this).hasClass('highlighted')) {
-            $('.card .price').show();
-        } else {
-            $('.card .price').hide();
-        }
+        console.log("After toggle:", $(this).hasClass('highlighted'));
+    
+        const showPrices = $(this).hasClass('highlighted');
+        console.log("Number of price elements:", $('.card .price').length);
+        console.log("Price elements visible before:", $('.card .price:visible').length);
+        
+        $('.card .price').toggle(showPrices);
+        
+        console.log("Price elements visible after:", $('.card .price:visible').length);
     });
 
     $('#printButton').on('click', function() {
@@ -208,9 +214,37 @@ $(document).ready(function() {
         printWindow.document.open();
         printWindow.document.write('<html><head><title>Printable List</title>');
         printWindow.document.write('<style>');
-        printWindow.document.write('body { font-family: Arial, sans-serif; }');
-        printWindow.document.write('.section-label { font-size: 18px; font-weight: bold; margin-top: 10px; }');
-        printWindow.document.write('.price { float: right; color: #888; }');
+        printWindow.document.write(`
+            body { 
+                font-family: Arial, sans-serif; 
+                max-width: 800px; 
+                margin: 0 auto; 
+                padding: 20px;
+            }
+            .section-label { 
+                font-size: 18px; 
+                font-weight: bold; 
+                margin-top: 20px; 
+                margin-bottom: 10px;
+            }
+            .print-card {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 5px;
+                padding: 2px 0;
+            }
+            .price { 
+                color: #888; 
+                margin-left: 10px;
+            }
+            .print-card:nth-child(even) {
+                background-color: #f8f8f8;
+            }
+            body {
+                font-size: 12px;
+                line-height: 1;
+            }
+        `);
         if (!showPrices) {
             printWindow.document.write('.price { display: none; }');
         }
@@ -225,11 +259,11 @@ $(document).ready(function() {
     function generatePrintableContent(showPrices) {
         var content = '';
         $('#sortedList').children().each(function() {
-            content += $(this).html();
+            var sectionContent = $(this).html();
+            // Wrap each card in a div for better control
+            sectionContent = sectionContent.replace(/<div class="card">(.*?)<\/div>/g, '<div class="print-card">$1</div>');
+            content += sectionContent;
         });
-        if (!showPrices) {
-            content = content.replace(/<span class="price">.*?<\/span>/g, '');
-        }
         return content;
     }
 
@@ -538,9 +572,8 @@ $(document).ready(function() {
                 // This is the deepest level, display cards
                 $.each(value, function(i, card) {
                     let cardHtml = `<div class="card">${card.name}`;
-                    if (showPrices) {
-                        cardHtml += `<span class="price">$${card.price}</span>`;
-                    }
+                    // Always create the price element, but hide it initially if showPrices is false
+                    cardHtml += `<span class="price" style="display: ${showPrices ? 'inline' : 'none'}">$${card.price}</span>`;
                     cardHtml += `</div>`;
                     $groupContainer.append(cardHtml);
                 });

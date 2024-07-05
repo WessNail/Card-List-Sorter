@@ -262,6 +262,8 @@ body {
 
 #sortedList {
     margin-bottom: 80px;
+    width: 100%;
+    padding-right: 50px;
 }
 
 .card {
@@ -273,12 +275,13 @@ body {
     margin-left: 20px;
     position: relative;
     user-select: none;
+    width: 100%;
 }
 
 .card .price {
+
     float: right;
     color: #888;
-    display: none;
 }
 
 button {
@@ -388,3 +391,6 @@ button {
     background-color: #5b5353;
 }
 
+.highlighted {
+    background-color: rgb(1, 107, 194);
+}
