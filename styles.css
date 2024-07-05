@@ -70,8 +70,11 @@ body {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-	align-items: flex-start; 
-    padding-bottom: 70px; /* Increase this value if needed */
+    align-items: flex-start;
+    background-color: #fff;
+    min-height: 100vh; /* Ensures the div extends to at least the full viewport height */
+    padding-bottom: 70px; /* Adjust this value to account for the button container height */
+    position: relative; /* Needed for absolute positioning of children if required */
 }
 
 .sorting-criteria {
@@ -257,9 +260,11 @@ body {
 }
 
 #sortedList {
-    margin-top: 20px;
-    margin-bottom: 100px; /* Adjust this value to prevent content from being hidden behind the fixed buttons */
-
+    flex-grow: 1;
+    width: 100%;
+    overflow-y: auto;
+    padding-bottom: 80px; /* Ensures content isn't hidden behind buttons */
+    margin-bottom: 80px;
 }
 
 .card {
@@ -350,17 +355,14 @@ button {
     padding-left: 20px;
 }
 
-.right-side {
-    position: relative;
-    padding-bottom: 60px; /* Adjust this value based on your button height */
-}
+
 
 .button-container {
     position: fixed;
     bottom: 0;
     left: 50%; /* Align with the center of the page */
     right: 0; /* Extend to the right edge of the viewport */
-    transform: translateX(-50%); /* Center the container */
+    /* transform: translateX(-50%); Center the container */
     max-width: 600px; /* Adjust this value to match your main content width */
     width: calc(50% - 20px); /* Adjust based on your layout */
     background-color: #fff;
@@ -375,11 +377,6 @@ button {
 /* Adjust the right-side padding to account for the fixed buttons */
 .right-side {
     padding-bottom: 70px; /* Increase this value if needed */
-}
-
-/* Ensure the content doesn't get cut off */
-#sortedList {
-    margin-bottom: 80px; /* Adjust as needed */
 }
 
 .button-container button {
@@ -399,6 +396,3 @@ button {
     background-color: #5b5353;
 }
 
-#sortedList {
-    margin-bottom: 100px; /* Adjust this value to prevent content from being hidden behind the fixed buttons */
-}
