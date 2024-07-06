@@ -711,21 +711,53 @@ $(document).ready(function() {
     }
 
     // CARD IMAGE POPUP FUNCTIONALITY
+    function positionPopup($popup, e) {
+        var windowWidth = $(window).width();
+        var windowHeight = $(window).height();
+        var $img = $popup.find('img');
+        var $debugInfo = $popup.find('.debug-info');
+        var imgWidth = $img.width() || 250; // Use 250 as fallback if image not loaded yet
+        var debugInfoWidth = $debugInfo.outerWidth();
+    
+        var popupLeft = e.pageX + 10;
+        var popupTop;
+    
+        // Vertical positioning
+        if (e.clientY > windowHeight / 2) {
+            popupTop = e.pageY - 10 - $popup.outerHeight();
+        } else {
+            popupTop = e.pageY + 10;
+        }
+    
+        // Horizontal positioning
+        var rightEdge = popupLeft + imgWidth + debugInfoWidth;
+        var overflow = rightEdge - windowWidth;
+    
+        if (overflow > 0) {
+            var slideAmount = Math.min(overflow, debugInfoWidth);
+            $debugInfo.css('transform', `translateX(-${slideAmount}px)`);
+            $popup.css('width', `${imgWidth + debugInfoWidth - slideAmount}px`);
+        } else {
+            $debugInfo.css('transform', 'translateX(0)');
+            $popup.css('width', '');
+        }
+    
+        $popup.css({
+            left: popupLeft,
+            top: popupTop
+        });
+    }
+
     $('#sortedList').on('mouseenter', '.card', debounce(function(e) {
         // Remove any existing popups
         $('.card-popup').remove();
 
         var cardName = $(this).text().trim().split('$')[0].trim();
-        var $popup = $('<div class="card-popup" data-card-name="' + cardName + '"><img src="" alt="Loading..."></div>');
-        var $debugInfo = $('<div class="debug-info"></div>');
-        $popup.append($debugInfo);
+        var $popup = $('<div class="card-popup" data-card-name="' + cardName + '"><img src="" alt="Loading..."><div class="debug-info"></div></div>');
         $('body').append($popup);
 
-        // Position the popup
-        $popup.css({
-            left: e.pageX + 10,
-            top: e.pageY + 10
-        });
+        // Initial positioning
+        positionPopup($popup, e);
 
         // Fetch the card image and data
         $.ajax({
@@ -740,6 +772,7 @@ $(document).ready(function() {
             }
 
             // Add debug info
+            var $debugInfo = $popup.find('.debug-info');
             if (showDebugInfo) {
                 var debugHtml = `
                     <h3>Debug Info</h3>
@@ -765,6 +798,12 @@ $(document).ready(function() {
             } else {
                 $debugInfo.hide();
             }
+
+            // Reposition after content is loaded
+            $popup.find('img').on('load', function() {
+                positionPopup($popup, e);
+            });
+
         }).fail(function() {
             $popup.find('img').attr('alt', 'Failed to load image');
         });
@@ -778,10 +817,7 @@ $(document).ready(function() {
             if ($hoveredCard.length) {
                 var cardName = $hoveredCard.text().trim().split('$')[0].trim();
                 if (cardName === $popup.data('card-name')) {
-                    $popup.css({
-                        left: e.pageX + 10,
-                        top: e.pageY + 10
-                    });
+                    positionPopup($popup, e);
                 } else {
                     $popup.remove();
                 }

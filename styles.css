@@ -314,31 +314,40 @@ button {
   }
 
   /*CARDINFO POPUP*/
-.card-popup {
+  .card-popup {
     display: flex;
     position: absolute;
-    z-index: 1000;
+    z-index: 999;
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     padding: 5px;
+    max-height: calc(100vh - 100px);
+    overflow: hidden; /* Hide any overflow */
+    /* transition: width 0.1s ease; Smooth width transition */
 }
 
 .card-popup img {
     max-width: 250px;
     height: auto;
     display: block;
+    position: relative;
+    z-index: 2;
 }
 
 .debug-info {
+    flex: 0 0 300px; /* Fixed width, don't grow or shrink */
     margin-left: 10px;
     padding: 10px;
     background-color: #f0f0f0;
     border-left: 1px solid #ccc;
-    max-width: 300px;
-    max-height: 300px;
+    max-height: 340px;
+    max-width: 250px;
     overflow-y: auto;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.05s ease;
 }
 
 .debug-info h3 {
@@ -363,10 +372,10 @@ button {
     left: 50%; /* Align with the center of the page */
     right: 0; /* Extend to the right edge of the viewport */
     /* transform: translateX(-50%); Center the container */
-    max-width: 600px; /* Adjust this value to match your main content width */
+    max-width: 580px; /* Adjust this value to match your main content width */
     width: calc(50% - 20px); /* Adjust based on your layout */
     background-color: #fff;
-    padding: 10px;
+    padding: 10px; 
     box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
     display: flex;
     justify-content: space-between;
