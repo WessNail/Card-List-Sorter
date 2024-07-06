@@ -801,8 +801,8 @@ $(document).ready(function() {
 
             // Reposition after content is loaded
             $popup.find('img').on('load', function() {
-                positionPopup($popup, e);
-            });
+            positionPopup($popup, e);
+        });
 
         }).fail(function() {
             $popup.find('img').attr('alt', 'Failed to load image');
