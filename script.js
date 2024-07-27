@@ -18,10 +18,17 @@ $(document).ready(function() {
 
     let primarySortOrder = ['rarity', 'Type/Color', 'alphabetical'];
     let secondarySortCriteria = ['White', 'Blue', 'Black', 'Red', 'Green', 'Multi', 'Colorless', 'Artifact', 'Land', 'Token', 'Emblem'];
+    let isPanelOpen = false;
 
+    const $addButton = $('#addTypeColorButton');
+    const $sliderPanel = $('#addTypeSlider');
+    const $cancelButton = $('#addTypeCancel');
+    const $confirmButton = $('#addTypeConfirm');
+    const $dropdown = $('#newTypeDropdown');    
+    
     const cardTypes = {
         "Card Types": [
-            "White", "Blue", "Black", "Red", "Green", "Multi", "Colorless", "Artifacts", "Conspiracies", "Creatures", "Dungeons", "Emblems", "Enchantments", "Instants", "Lands", "Phenomena", "Planes", "Planeswalkers", "Schemes", "Sorceries", "Tokens", "Tribals", "Vanguards"
+            "White", "Blue", "Black", "Red", "Green", "Multi", "Colorless", "Artifact", "Conspiracy", "Creature", "Dungeon", "Emblem", "Enchantment", "Instant", "Land", "Phenomenon", "Plane", "Planeswalker", "Scheme", "Sorcery", "Token", "Tribal", "Vanguard"
         ],
         "Artifact Subtypes": [
             "Clue", "Contraption", "Equipment", "Food", "Fortification", "Gold", "Treasure", "Vehicle"
@@ -39,6 +46,7 @@ $(document).ready(function() {
             // ... (keep the existing list of planeswalker subtypes)
         ],
     };
+
 
     
     // INITIALISATIONS
@@ -105,52 +113,46 @@ $(document).ready(function() {
         });
     }
 
+    function openSliderPanel() {
+        if (!isPanelOpen) {
+            $sliderPanel.show();
+            setTimeout(() => $sliderPanel.addClass('open'), 50);
+            isPanelOpen = true;
+            toggleSortable(false);
+            populateDropdown();
+        }
+    }
+
+    function closeSliderPanel() {
+        if (isPanelOpen) {
+            $sliderPanel.removeClass('open');
+            setTimeout(() => {
+                $sliderPanel.hide();
+                $dropdown.val("");
+            }, 300);
+            isPanelOpen = false;
+            toggleSortable(true);
+        }
+    }
+
     // Initialize
     initializeSortable();
     initializeLongPressDelete();
     populateDropdown();
 
     // EVENT HANDLERS
-    $('#addTypeColorButton').on('click', function() {
-        var $button = $(this);
-        var $slider = $('#addTypeSlider');
-        if ($slider.is(":visible")) {
-            closeSlider();
-        } else {
-            // Position the slider
-            var buttonPos = $button.offset();
-            $slider.css({
-                top: buttonPos.top + $button.outerHeight(),
-                left: buttonPos.left
-            });
+    $addButton.on('click', openSliderPanel);
+    $cancelButton.on('click', closeSliderPanel);
 
-            // Slide open animation
-            $slider.show().css({
-                width: 0,
-                height: 0
-            }).animate({
-                width: '250px',
-                height: '150px'
-            }, 300, function() {
-                // Ensure the dropdown is visible and reset to default state
-                $("#newTypeDropdown").show().val("");
-            });
-            populateDropdown();
-            toggleSortable(false);  // Disable sortable
-        }
-    });
-
-    $('#addTypeConfirm').on('click', function() {
-        var selectedType = $("#newTypeDropdown").val();
+    $confirmButton.on('click', function() {
+        const selectedType = $dropdown.val();
         if (selectedType) {
             addNewType(selectedType);
-            closeSlider();
+            closeSliderPanel();
             // Reset the dropdown to its default state
-            $("#newTypeDropdown").val("");
+            $dropdown.val("");
         }
     });
-
-    $('#addTypeCancel').on('click', closeSlider);
 
     $('#sortButton').on('click', debounce(function() {
         console.log("Sort button clicked");
@@ -299,18 +301,7 @@ $(document).ready(function() {
 
     function toggleSortable(enable) {
         $(".sortable-container, .categories").sortable(enable ? "enable" : "disable");
-    }
-
-    function closeSlider() {       
-        $('#addTypeSlider').animate({
-            width: 0,
-            height: 0
-        }, 300, function() {
-            $(this).hide();
-            $("#newTypeDropdown").val("");
-            toggleSortable(true);  // Re-enable sortable
-        });
-    }
+    }    
 
     function updateSecondarySort($container) {
         secondarySortCriteria = $container.children('.criteria-item').map(function() {
