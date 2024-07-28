@@ -11,10 +11,12 @@
 
 <div class="container">
     <div class="left-side">
-		<button id="debugButton">Sample Data</button>
         <p class="note">List must have no empty lines and ensure card names are exact</p>
-        <label for="listName">List Name:</label>
-        <input type="text" id="listName" placeholder="Enter list name">
+        <div id="listHeader">
+			<label for="listName">List Name:</label>
+			<button id="debugButton">Sample Data</button>
+		</div>
+		<input type="text" id="listName" placeholder="Enter list name">
         <textarea id="cardList" placeholder="Paste unsorted list of Magic: The Gathering cards here"></textarea>
     </div>
     <div class="right-side">
