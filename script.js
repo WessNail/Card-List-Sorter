@@ -341,8 +341,8 @@ $(document).ready(function() {
         `);
         printWindow.document.write('</style>');
         printWindow.document.write('</head><body>');
-        // printWindow.document.write('<h1>' + $('#listName').val() + '</h1>');
-        printWindow.document.write($('#listName').val());
+        printWindow.document.write('<h1>' + $('#listName').val() + '</h1>');
+        // printWindow.document.write($('#listName').val());
         printWindow.document.write(tableContent);
         printWindow.document.write('</body></html>');
         printWindow.document.close();
