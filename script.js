@@ -26,6 +26,54 @@ $(document).ready(function() {
     const $confirmButton = $('#addTypeConfirm');
     const $dropdown = $('#newTypeDropdown');    
     
+    const sampleData = [
+        "Angelic fieldmarshal", "Avacyn, angel of hope", "Bale fire dragon", "Faerie Artisans", "Grenzo, havoc raiser", 
+        "heartless hidetsugu", "heliod, god of the sun", "hellkite charger", "herald of the host", "hoarding dragon", 
+        "Inferno titan", "nesting dragon", "purphoros, god of the forge", "Razaketh, the foulblooded", "rune-scarred demon", 
+        "Scourge of the throne", "Skyline despot", "Spike shot goblin", "treasure nabber", "twilight prophet", 
+        "Xantcha, sleeper agent", "Yahenni, undying partisan", "Archfiend of despair", "Goremand", "omarthis, ghostfire initiate", 
+        "Sower of discord", "wild wood scourge", "Lifeblood hydra", "Fact or fiction", "Flawless maneuver", 
+        "heroic intervention", "Ravaging blaze", "Savage beating", "Capture of Jingzhou", "Insurrection", 
+        "wrath of god", "personal tutor", "promise of loyalty", "Exsanguinate", "grave pact", 
+        "Land tax", "mirari's wake", "Norn's annex", "The eldest reborn", "Felidar retreat", 
+        "Smothering tithe", "Campfire", "Chromatic lantern", "Everflowing chalice", "Gilded lotus", 
+        "mirage mirror", "Scytheclaw", "The immortal sun", "Thran dynamo", "worn powerstone", 
+        "Fire shrieker", "Myriad Landscape", "Reliquary tower", "Rogue's passage", "Temple of the false god", 
+        "Urza's mine", "Urza's power plant", "Urza's tower", "Herald of anguish", "Warstorm Surge", 
+        "plague drone", "Chaos defiler", "Brainstorm", "Drach'Nyen", "Orcish siegemaster", 
+        "Dragonlord ojutai", "Thraben watcher", "Linvala, shield of seagate", "Loyal drake", "Serra's emissary", 
+        "Aerial extortionist", "Consecrated sphinx", "Ancient gold dragon", "Ancient silverdragon", "Archangel of thune", 
+        "donal, herald of wings", "Battle angels of tyr", "magus of the moat", "medomai the ageless", "kira, great glass-spinner", 
+        "Errant and giada", "Gold-forged thopteryx", "wind born muse", "Firemane Commando", "Archetype of imagination", 
+        "malcolm, alluring scoundrel", "Wojek investigator", "skyhunter strikeforce", "Resculpt", "Unbreakable formation", 
+        "keep watch", "Akroma's will", "Supreme verdict", "Austere command", "Eaten by piranhas", 
+        "Wizard class", "Sentinel's eyes", "Reconnaissance mission", "Ghostly prison", "Ring of thune", 
+        "Strixhaven stadium", "Doubling cube", "mind stone", "Decanter of Endless Water", "Ghost quarter", 
+        "skycloud expanse", "Restless anchorage", "Azorius chancery", "Deserted beach", "Dramatic reversal", 
+        "High tide", "Herald of Secret Streams", "Animar, Soul of Elements", "kami of whispered hopes", "Ingenious prodigy", 
+        "Kodama of the West Tree", "The Goose Mother", "Incubation druid", "kiora's follower", "Altered ego", 
+        "Rosheen meanderer", "Beast whisperer", "Defiler of vigor", "Grumgully, the Generous", "Shivan devastator", 
+        "Forgotten ancient", "Kiora, Behemoth Beckoner", "Silkguard", "Pull from tomorrow", "heroic intervention", 
+        "chaos warp", "Krosan grip", "nature's lore", "mutational advantage", "Kodama's Reach", 
+        "Animists awakening", "Curse of the swine", "Green sun's twilight", "Doppelgang", "Doubling season", 
+        "Invigorating Hot Spring", "Unbound flourishing", "Rhythm of the Wild", "Simic ascendancy", "temur ascendancy", 
+        "All will be one", "Court of garen brig", "Branching evolution", "Twinning staff", "Lightning greaves", 
+        "ozolith, the shattered spire", "Power fist", "Elementalist's Palette", "Yavimaya coast", "Karn's bastion", 
+        "Rootbound crag", "Shivan Reef", "Spire garden", "Sulfur falls", "Hinterland Harbor", 
+        "change of plans", "Jaya's immolating Inferno", "Reap the past", "Commander's Insight", "Diviner's Insight", 
+        "mass manipulation", "muscle sliver", "Predatory sliver", "homing sliver", "sliver overlord", 
+        "The first sliver", "Sliver legion", "Battering sliver", "Dregscape Sliver", "Essence sliver", 
+        "fungus sliver", "Fury sliver", "Horned Sliver", "ground shaker sliver", "hunter sliver", 
+        "Lymph sliver", "magma sliver", "plated sliver", "pulmonic sliver", "tempered sliver", 
+        "telekinetic sliver", "watcher sliver", "ward sliver", "Vedalken Aethermage", "Return of the wildspeaker", 
+        "And they shall know no fear", "clever concealment", "Eladamri's call", "patriarch's bidding", "Eerie ultimatum", 
+        "Kindred Discovery", "Leyline of the guildpact", "Spelunking", "Reflections of Littjara", "Descendant's path", 
+        "Coat of arms", "Door of destinies", "The World Tree", "Sliver Hive", "Cavern of souls", 
+        "Belakor, the darkmaster", "Living death", "Necromantic Selection", "Decimate", "Celestine, the living saint", 
+        "food", "treasure", "0/2 red Dragon Egg", "2/2 red Dragon", "City’s blessing", 
+        "The Monarch", "Tovolar's Huntmaster", "Fire"
+      ];
+
     const cardTypes = {
         "Card Types": [
             "White", "Blue", "Black", "Red", "Green", "Multi", "Colorless", "Artifact", "Conspiracy", "Creature", "Dungeon", "Emblem", "Enchantment", "Instant", "Land", "Phenomenon", "Plane", "Planeswalker", "Scheme", "Sorcery", "Token", "Tribal", "Vanguard"
@@ -141,6 +189,11 @@ $(document).ready(function() {
     populateDropdown();
 
     // EVENT HANDLERS
+    // Debug button functionality
+    $('#debugButton').on('click', function() {
+        $('#cardList').val(sampleData.join('\n'));
+    });
+
     $addButton.on('click', openSliderPanel);
     $cancelButton.on('click', closeSliderPanel);
 
@@ -212,50 +265,88 @@ $(document).ready(function() {
     $('#printButton').on('click', function() {
         const showPrices = $('#priceButton').hasClass('highlighted');
         var printableContent = generatePrintableContent(showPrices);
+        
+        // Convert the printable content to a table structure
+        var $content = $('<div>').html(printableContent);
+        var tableContent = '<table class="print-table">';
+        var rowCount = 0;
+        
+        $content.find('.section-label, .print-card').each(function() {
+            if ($(this).hasClass('section-label')) {
+                tableContent += '<tr class="section-row"><td colspan="2">' + $(this).text() + '</td></tr>';
+            } else {
+                var rowClass = rowCount % 2 === 0 ? 'even-row' : 'odd-row';
+                var cardName = $(this).contents().filter(function() {
+                    return this.nodeType === 3;
+                }).text().trim();
+                var price = $(this).find('.price').text().trim();
+                
+                tableContent += '<tr class="' + rowClass + '">';
+                tableContent += '<td class="card-name">' + cardName + '</td>';
+                if (showPrices) {
+                    tableContent += '<td class="card-price">' + price + '</td>';
+                } else {
+                    tableContent += '<td></td>';
+                }
+                tableContent += '</tr>';
+                rowCount++;
+            }
+        });
+        
+        tableContent += '</table>';
+    
         var printWindow = window.open('', '_blank');
-        printWindow.document.open();
         printWindow.document.write('<html><head><title>Printable List</title>');
         printWindow.document.write('<style>');
         printWindow.document.write(`
             body { 
                 font-family: Arial, sans-serif; 
-                max-width: 800px; 
-                margin: 0 auto; 
-                padding: 20px;
-            }
-            .section-label { 
-                font-size: 18px; 
-                font-weight: bold; 
-                margin-top: 20px; 
-                margin-bottom: 10px;
-            }
-            .print-card {
-                display: flex;
-                justify-content: space-between;
-                margin-bottom: 5px;
-                padding: 2px 0;
-            }
-            .price { 
-                color: #888; 
-                margin-left: 10px;
-            }
-            .print-card:nth-child(even) {
-                background-color: #f8f8f8;
-            }
-            body {
-                font-size: 12px;
+                font-size: 9px;
                 line-height: 1;
+                max-width: 400px;
+                margin: 0 auto;
+                padding: 20px;
+                justify: center;
+            }
+            .print-table {
+                width: 100%;
+                border-collapse: collapse;
+                justify: center;
+            }
+            .print-table td {
+                padding: 2px 5px;
+            }
+            .section-row td {
+                font-size: 14px;
+                font-weight: bold;
+                padding-top: 10px;
+                padding-bottom: 5px;
+            }
+            .odd-row {
+                // background-color: #f8f8f8;
+                background-color: #e0e0e0;                
+            }
+            .even-row {
+                background-color: #ffffff;
+            }
+            .card-name {
+                width: 80%;
+                font-size: 12px;
+            }
+            .card-price {
+                width: 20%;
+                text-align: right;
+                font-size: 12px;
             }
         `);
-        if (!showPrices) {
-            printWindow.document.write('.price { display: none; }');
-        }
         printWindow.document.write('</style>');
         printWindow.document.write('</head><body>');
-        printWindow.document.write('<h1>' + $('#listName').val() + '</h1>');
-        printWindow.document.write(printableContent);
+        // printWindow.document.write('<h1>' + $('#listName').val() + '</h1>');
+        printWindow.document.write($('#listName').val());
+        printWindow.document.write(tableContent);
         printWindow.document.write('</body></html>');
         printWindow.document.close();
+        // printWindow.print();
     });
     
     function generatePrintableContent(showPrices) {
