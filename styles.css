@@ -16,6 +16,7 @@ body {
 }
 
 .container {
+    /* Existing styles remain unchanged */
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -24,7 +25,10 @@ body {
     height: 100vh;
 }
 
+
+
 .left-side, .right-side {
+    /* Existing styles remain unchanged */
     width: 45%;
     padding: 20px;
     background-color: #fff;
@@ -34,6 +38,7 @@ body {
 }
 
 .left-side {
+    /* Existing styles remain unchanged */
     flex: 1;
     padding: 10px;
     box-sizing: border-box;
@@ -91,6 +96,7 @@ body {
 }
 
 .right-side {
+    /* Existing styles remain unchanged */
     flex: 1;
     padding: 10px;
     box-sizing: border-box;
@@ -98,9 +104,9 @@ body {
     flex-direction: column;
     align-items: flex-start;
     background-color: #fff;
-    min-height: 100vh; /* Ensures the div extends to at least the full viewport height */
-    padding-bottom: 50px; /* Adjust this value to account for the button container height */
-    position: relative; /* Needed for absolute positioning of children if required */
+    min-height: 100vh;
+    padding-bottom: 50px;
+    position: relative;
     overflow-y: auto;
 }
 
@@ -476,4 +482,56 @@ button {
     cursor: pointer;
     transition: background-color 0.3s;
     text-align: center;
+}
+
+/* Add responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        height: auto;
+        padding: 0 10px;
+    }
+}
+
+/* Add responsive adjustments */
+@media (max-width: 768px) {
+    .left-side, .right-side {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .right-side {
+        min-height: auto;
+        padding-bottom: 20px;
+    }
+
+    .left-side {
+        min-height: 500px;
+    }
+}
+
+/* Add responsive adjustments */
+@media (max-width: 768px) {
+    .sorting-criteria {
+        width: 100%;        
+        align-items: center;
+        justify-content: center;
+    }
+
+    .categories {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .criteria-item {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    .button-container {
+        position: static;
+        width: 100%;
+        margin-top: 20px;
+        padding: 10px;
+    }
 }
